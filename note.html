@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>یادنامە</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    background: radial-gradient(ellipse at top, #241a08 0%, #0b0b0d 55%);
+    color: #f2f2f2;
+    font-family: -apple-system, "Noto Naskh Arabic", "Segoe UI", Tahoma, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  .brand {
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  .brand img {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    box-shadow: 0 8px 26px rgba(212, 162, 78, 0.35);
+  }
+  .brand-name {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #e8c07d;
+    font-size: 1rem;
+  }
+  .card {
+    width: 100%;
+    max-width: 480px;
+    background: linear-gradient(160deg, #2a2115, #17130c);
+    border: 1px solid #3a2e18;
+    border-radius: 24px;
+    padding: 32px 26px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    text-align: center;
+  }
+  .quote-mark {
+    font-size: 2.6rem;
+    color: #d4a24e;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .note-text {
+    font-size: 1.3rem;
+    line-height: 2;
+    color: #f6ecd9;
+    margin: 10px 0 24px;
+    white-space: pre-wrap;
+  }
+  .meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    color: #b7ab8e;
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+  }
+  .meta .author {
+    color: #d4a24e;
+    font-weight: bold;
+  }
+  .stats {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    color: #9a9a9a;
+    font-size: 0.9rem;
+  }
+  .state {
+    color: #b7ab8e;
+    font-size: 1rem;
+    text-align: center;
+    padding: 60px 20px;
+  }
+  .cta {
+    margin-top: 30px;
+    text-align: center;
+  }
+  .cta a {
+    display: inline-block;
+    background: linear-gradient(135deg, #e8c07d, #b8862f);
+    color: #1b1204;
+    font-weight: bold;
+    padding: 14px 34px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+  .footer {
+    margin-top: 34px;
+    color: #7a7a7a;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+  <div class="brand">
+    <img src="logo.png" alt="یادنامە">
+    <div class="brand-name">یادنامە</div>
+  </div>
+
+  <div id="content" class="card">
+    <div class="state">🔎 چاوەڕوان بە، وتەکە بار دەکرێت...</div>
+  </div>
+
+  <div class="cta">
+    <a href="https://apps.apple.com/app/idXXXXXXXXXX">📲 دابەزاندنی ئەپی یادنامە</a>
+  </div>
+
+  <div class="footer">یادنامە — شوێنێک بۆ پاراستن و هاوبەشکردنی وتەکانت</div>
+
+<script>
+  const SUPABASE_URL = "https://vzcswmhodcwnooxxwocy.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_xfEqUV1M9GGGDo2l__HgIQ_s6AykqRM";
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.innerText = str;
+    return div.innerHTML;
+  }
+
+  function timeAgo(dateStr) {
+    const date = new Date(dateStr);
+    if (isNaN(date)) return "";
+    const diffSec = Math.floor((Date.now() - date.getTime()) / 1000);
+    if (diffSec < 60) return "ئێستا";
+    if (diffSec < 3600) return Math.floor(diffSec / 60) + " خولەک لەمەوبەر";
+    if (diffSec < 86400) return Math.floor(diffSec / 3600) + " کاتژمێر لەمەوبەر";
+    const days = Math.floor(diffSec / 86400);
+    if (days < 30) return days + " ڕۆژ لەمەوبەر";
+    return date.toLocaleDateString('en-GB');
+  }
+
+  async function loadNote() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const content = document.getElementById('content');
+
+    if (!id) {
+      content.innerHTML = '<div class="state">ئەم وتەیە نەدۆزرایەوە.</div>';
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/notes?select=text,name,created_at,likes,views&id=eq.${encodeURIComponent(id)}&hidden=eq.false`,
+        {
+          headers: {
+            "apikey": SUPABASE_ANON_KEY,
+            "Authorization": `Bearer ${SUPABASE_ANON_KEY}`
+          }
+        }
+      );
+
+      if (!res.ok) throw new Error("network error");
+      const rows = await res.json();
+
+      if (!rows || rows.length === 0) {
+        content.innerHTML = '<div class="state">ئەم وتەیە بوونی نییە یان سڕدراوەتەوە.</div>';
+        return;
+      }
+
+      const note = rows[0];
+      const author = note.name ? escapeHtml(note.name) : "بێناو";
+
+      content.innerHTML = `
+        <div class="quote-mark">”</div>
+        <div class="note-text">${escapeHtml(note.text)}</div>
+        <div class="meta">
+          <span class="author">${author}</span>
+          <span>•</span>
+          <span>${timeAgo(note.created_at)}</span>
+        </div>
+        <div class="stats">
+          <span>❤️ ${note.likes ?? 0}</span>
+          <span>👀 ${note.views ?? 0}</span>
+        </div>
+      `;
+    } catch (e) {
+      content.innerHTML = '<div class="state">نەمانتوانی وتەکە بار بکەین. تکایە دواتر هەوڵبدەرەوە.</div>';
+    }
+  }
+
+  loadNote();
+</script>
+
+</body>
+</html>
