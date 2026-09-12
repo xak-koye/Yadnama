@@ -95,6 +95,21 @@
     font-size: 0.9rem;
     margin-top: 40px;
   }
+  .shots {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 10px 4px 20px;
+    scroll-snap-type: x proximity;
+  }
+  .shots img {
+    height: 460px;
+    border-radius: 22px;
+    border: 6px solid #1b1b1e;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
 </style>
 </head>
 <body>
@@ -120,6 +135,13 @@
     <li>💬 هاوبەشکردن و ڕاپۆرتکردنی ناوەڕۆک</li>
     <li>🌙 دیزاینی تاریک و ڕوون</li>
   </ul>
+
+  <h2>📱 وێنەی ئەپەکە</h2>
+  <div class="shots">
+    <img src="screenshots/shot1.png" alt="پەڕەی بەخێرهاتن">
+    <img src="screenshots/shot2.png" alt="لیستی وتەکان">
+    <img src="screenshots/shot3.png" alt="پەڕەی پرۆفایل">
+  </div>
 
   <h2>📄 یاسا و بەڵگەنامەکان</h2>
   <table>
