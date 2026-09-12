@@ -1,4 +1,6 @@
-<div align="center">
+<p align="center">
+  <img src="logo.png" width="120" alt="یادنامە logo">
+</p>
 
 # 📝 یادنامە | Yadnama
 
@@ -6,9 +8,7 @@
 
 *A place to save and share the words that matter to you — with or without a name.*
 
-</div>
-
-<br>
+---
 
 ## ✨ دەربارەی ئەپەکە
 
@@ -22,8 +22,6 @@
 - 💬 هاوبەشکردن و ڕاپۆرتکردنی ناوەڕۆک
 - 🌙 دیزاینی تاریک و ڕوون
 
-<br>
-
 ## 📄 یاسا و بەڵگەنامەکان
 
 | بەڵگەنامە | لینک |
@@ -31,10 +29,6 @@
 | 🔒 پاراستنی نهێنی (Privacy Policy) | [privacy-policy.html](https://xak-koye.github.io/Yadnama/privacy-policy.html) |
 | 📜 یاسا و مەرجەکان (Terms of Use) | [terms-of-use.html](https://xak-koye.github.io/Yadnama/terms-of-use.html) |
 
-<br>
-
-<div align="center">
+---
 
 _دروستکراوە بە ❤️ بۆ کۆمەڵگەی کوردی_
-
-</div>

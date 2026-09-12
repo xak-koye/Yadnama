@@ -9,7 +9,7 @@
     color-scheme: dark light;
   }
   body {
-    background: #0b0b0d;
+    background: radial-gradient(ellipse at top, #241a08 0%, #0b0b0d 55%);
     color: #f2f2f2;
     font-family: -apple-system, "Noto Naskh Arabic", "Segoe UI", Tahoma, sans-serif;
     line-height: 1.9;
@@ -24,7 +24,7 @@
   h2 {
     font-size: 1.15rem;
     margin-top: 34px;
-    border-right: 4px solid #3b82f6;
+    border-right: 4px solid #d4a24e;
     padding-right: 10px;
   }
   .updated {
@@ -41,6 +41,16 @@
     border-top: 1px solid #2a2a2e;
     margin: 48px 0;
   }
+  .brand {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .brand img {
+    width: 84px;
+    height: 84px;
+    border-radius: 20px;
+    box-shadow: 0 6px 24px rgba(212, 162, 78, 0.35);
+  }
   .lang-toggle {
     text-align: center;
     margin-bottom: 8px;
@@ -52,13 +62,17 @@
   }
   [dir="ltr"] h2 {
     border-right: none;
-    border-left: 4px solid #3b82f6;
+    border-left: 4px solid #d4a24e;
     padding-right: 0;
     padding-left: 10px;
   }
 </style>
 </head>
 <body>
+
+  <div class="brand">
+    <img src="logo.png" alt="یادنامە">
+  </div>
 
   <h1>یادنامە — پاراستنی نهێنی (Privacy Policy)</h1>
   <p class="updated">دوایین نوێکردنەوە: ٢٠٢٦</p>
